@@ -64,7 +64,7 @@ docker compose down -v
 
 ### Portainer
 
-Change the `x-common` to point to `.env` style of portainer and your a good to go.
+Change the `x-common` to point to `.env` style of portainer and you are good to go.
 
 ### Reverse proxy
 
