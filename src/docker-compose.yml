@@ -30,13 +30,10 @@ services:
       - supabase
       - supabase-internal
     ports:
-      - ${KONG_HTTP_PORT}:8000/tcp
+      - 8000:8000/tcp
     depends_on:
       analytics:
         condition: service_healthy
-    environment:
-      DASHBOARD_USERNAME: ${DASHBOARD_USERNAME}
-      DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD}
 
   auth:
     container_name: supabase-auth
@@ -49,12 +46,10 @@ services:
         condition: service_healthy
       analytics:
         condition: service_healthy
-    environment:
-      API_EXTERNAL_URL: ${API_EXTERNAL_URL}
 
   rest:
+    image: ghcr.io/webysther/supabase-rest:14.3
     container_name: supabase-rest
-    image: postgrest/postgrest:v14.3
     restart: unless-stopped
     networks:
       - supabase-internal
@@ -63,18 +58,6 @@ services:
         condition: service_healthy
       analytics:
         condition: service_healthy
-    environment:
-      PGRST_DB_URI: postgres://authenticator:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-      PGRST_DB_SCHEMAS: ${PGRST_DB_SCHEMAS}
-      PGRST_DB_ANON_ROLE: anon
-      PGRST_JWT_SECRET: ${JWT_SECRET}
-      PGRST_DB_USE_LEGACY_GUCS: "false"
-      PGRST_APP_SETTINGS_JWT_SECRET: ${JWT_SECRET}
-      PGRST_APP_SETTINGS_JWT_EXP: ${JWT_EXPIRY}
-    command:
-      [
-        "postgrest"
-      ]
 
   realtime:
     # This container name looks inconsistent but is correct because realtime constructs tenant id by parsing the subdomain
@@ -122,7 +105,7 @@ services:
     image: supabase/storage-api:v1.37.1
     restart: unless-stopped
     volumes:
-      - /data/docker/supabase/volumes/storage:/var/lib/storage:z
+      - /data/docker/supabase/storage:/var/lib/storage:z
     healthcheck:
       test:
         [
@@ -169,7 +152,7 @@ services:
     networks:
       - supabase-internal
     volumes:
-      - /data/docker/supabase/volumes/storage:/var/lib/storage:z
+      - /data/docker/supabase/storage:/var/lib/storage:z
     healthcheck:
       test:
         [
@@ -270,11 +253,6 @@ services:
     depends_on:
       vector:
         condition: service_healthy
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      JWT_SECRET: ${JWT_SECRET}
-      JWT_EXP: ${JWT_EXPIRY}
     networks:
       - supabase-internal
 
@@ -284,8 +262,6 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${LOGFLARE_PUBLIC_ACCESS_TOKEN}
     networks:
       - supabase-internal
     security_opt:
@@ -297,7 +273,7 @@ services:
     restart: unless-stopped
     ports:
       - ${POSTGRES_PORT}:5432
-      - ${POOLER_PROXY_PORT_TRANSACTION}:6543
+      - 6543:6543
     networks:
       - supabase-internal
     depends_on:
@@ -305,15 +281,6 @@ services:
         condition: service_healthy
       analytics:
         condition: service_healthy
-    environment:
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-      VAULT_ENC_KEY: ${VAULT_ENC_KEY}
-      POOLER_TENANT_ID: ${POOLER_TENANT_ID}
-      POOLER_DEFAULT_POOL_SIZE: ${POOLER_DEFAULT_POOL_SIZE}
-      POOLER_MAX_CLIENT_CONN: ${POOLER_MAX_CLIENT_CONN}
 
 volumes:
   db-config:
