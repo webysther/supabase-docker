@@ -1,6 +1,6 @@
 # Supabase Docker
 
-This repository make easy to deploy supabase with actions to build mostly services with all values pre-configured.
+This repository make easy to deploy supabase with actions to build the services with all values pre-configured.
 
 ## Major problems fixed
 
@@ -22,6 +22,8 @@ This repository make easy to deploy supabase with actions to build mostly servic
 ## Setup
 
 ### Compose
+
+To deploy only the `docker-compose.yml` and `.env` is necessary.
 
 Let's generate the keys that will need:
 
