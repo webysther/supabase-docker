@@ -1,24 +1,10 @@
 #!/usr/bin/env bash
-set -e
+set -Eeo pipefail
 
-export POSTGRES_PORT="${POSTGRES_PORT:-5432}"
-export POSTGRES_DB="${POSTGRES_DB:-postgres}"
-export JWT_EXPIRY="${JWT_EXPIRY:-3600}"
+export POSTGRES_HOST="/var/run/postgresql"
+export PGPORT="${PGPORT:-$POSTGRES_PORT}"
+export PGPASSWORD="${PGPASSWORD:-$POSTGRES_PASSWORD}"
+export PGDATABASE="${PGDATABASE:-$POSTGRES_DB}"
+export JWT_EXP="${JWT_EXP:-$JWT_EXPIRY}"
 
-if [ -n "${POSTGRES_PORT}" ]; then
-  export PGPORT="${POSTGRES_PORT}"
-fi
-
-if [ -n "${POSTGRES_PASSWORD}" ]; then
-  export PGPASSWORD="${POSTGRES_PASSWORD}"
-fi
-
-if [ -n "${POSTGRES_DB}" ]; then
-  export PGDATABASE="${POSTGRES_DB}"
-fi
-
-if [ -n "${JWT_EXPIRY}" ]; then
-  export JWT_EXP="${JWT_EXPIRY}"
-fi
-
-exec /usr/local/bin/docker-entrypoint.sh "$@"
+exec docker-entrypoint.sh "$@"

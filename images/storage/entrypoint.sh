@@ -13,12 +13,7 @@ export GLOBAL_S3_BUCKET="${GLOBAL_S3_BUCKET:-stub}"
 export ENABLE_IMAGE_TRANSFORMATION="${ENABLE_IMAGE_TRANSFORMATION:-true}"
 export IMGPROXY_URL="${IMGPROXY_URL:-http://imgproxy:5001}"
 
-if [ -n "${SERVICE_ROLE_KEY}" ]; then
-  export SERVICE_KEY="${SERVICE_ROLE_KEY}"
-fi
-
-if [ -n "${JWT_SECRET}" ]; then
-  export PGRST_JWT_SECRET="${JWT_SECRET}"
-fi
+export SERVICE_KEY="${SERVICE_KEY:-$SERVICE_ROLE_KEY}"
+export PGRST_JWT_SECRET="${PGRST_JWT_SECRET:-$JWT_SECRET}"
 
 exec "${@}"

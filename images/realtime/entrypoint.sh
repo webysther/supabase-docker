@@ -13,24 +13,11 @@ export SEED_SELF_HOST="${SEED_SELF_HOST:-true}"
 export RUN_JANITOR="${RUN_JANITOR:-true}"
 export DISABLE_HEALTHCHECK_LOGGING="${DISABLE_HEALTHCHECK_LOGGING:-true}"
 
-if [ -n "${POSTGRES_HOST:-}" ]; then
-  export DB_HOST="${POSTGRES_HOST}"
-fi
+export DB_HOST="${DB_HOST:-$POSTGRES_HOST}"
+export DB_PORT="${DB_PORT:-$POSTGRES_PORT}"
+export DB_PASSWORD="${DB_PASSWORD:-$POSTGRES_PASSWORD}"
+export DB_NAME="${DB_NAME:-$POSTGRES_DB}"
 
-if [ -n "${POSTGRES_PORT:-}" ]; then
-  export DB_PORT="${POSTGRES_PORT}"
-fi
-
-if [ -n "${POSTGRES_PASSWORD:-}" ]; then
-  export DB_PASSWORD="${POSTGRES_PASSWORD}"
-fi
-
-if [ -n "${POSTGRES_DB:-}" ]; then
-  export DB_NAME="${POSTGRES_DB}"
-fi
-
-if [ -n "${JWT_SECRET:-}" ]; then
-  export API_JWT_SECRET="${JWT_SECRET}"
-fi
+export API_JWT_SECRET="${API_JWT_SECRET:-$JWT_SECRET}"
 
 exec "${@}"

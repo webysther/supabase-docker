@@ -3,25 +3,11 @@ set -Eeuo pipefail
 
 export PG_META_PORT="${PG_META_PORT:-8080}"
 export PG_META_DB_USER="${PG_META_DB_USER:-supabase_admin}"
+export PG_META_DB_HOST="${PG_META_DB_HOST:-$POSTGRES_HOST}"
+export PG_META_DB_PORT="${PG_META_DB_PORT:-$POSTGRES_PORT}"
+export PG_META_DB_NAME="${PG_META_DB_NAME:-$POSTGRES_DB}"
+export PG_META_DB_PASSWORD="${PG_META_DB_PASSWORD:-$POSTGRES_PASSWORD}"
 
-if [ -n "${POSTGRES_HOST}" ]; then
-  export PG_META_DB_HOST="${POSTGRES_HOST}"
-fi
-
-if [ -n "${POSTGRES_PORT}" ]; then
-  export PG_META_DB_PORT="${POSTGRES_PORT}"
-fi
-
-if [ -n "${POSTGRES_DB}" ]; then
-  export PG_META_DB_NAME="${POSTGRES_DB}"
-fi
-
-if [ -n "${POSTGRES_PASSWORD}" ]; then
-  export PG_META_DB_PASSWORD="${POSTGRES_PASSWORD}"
-fi
-
-if [ -n "${PG_META_CRYPTO_KEY}" ]; then
-  export CRYPTO_KEY="${PG_META_CRYPTO_KEY}"
-fi
+export CRYPTO_KEY="${CRYPTO_KEY:-$PG_META_CRYPTO_KEY}"
 
 exec "${@}"
