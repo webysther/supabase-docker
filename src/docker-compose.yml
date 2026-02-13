@@ -64,8 +64,8 @@ services:
       SNIPPETS_MANAGEMENT_FOLDER: /app/snippets
       EDGE_FUNCTIONS_MANAGEMENT_FOLDER: /app/edge-functions
     volumes:
-      - /data/docker/supabase/snippets:/app/snippets:Z
-      - /data/docker/supabase/functions:/app/edge-functions:Z
+      - /data/docker/supabase/volumes/snippets:/app/snippets:Z
+      - /data/docker/supabase/volumes/functions:/app/edge-functions:Z
 
   kong:
     container_name: supabase-kong
@@ -79,7 +79,7 @@ services:
 #      - ${KONG_HTTPS_PORT}:8443/tcp
     volumes:
       # https://github.com/supabase/supabase/issues/12661
-      - /data/docker/supabase/api/kong.yml:/home/kong/temp.yml:ro,z
+      - /data/docker/supabase/volumes/api/kong.yml:/home/kong/temp.yml:ro,z
     depends_on:
       analytics:
         condition: service_healthy
@@ -256,7 +256,7 @@ services:
     image: supabase/storage-api:v1.37.1
     restart: unless-stopped
     volumes:
-      - /data/docker/supabase/storage:/var/lib/storage:z
+      - /data/docker/supabase/volumes/storage:/var/lib/storage:z
     healthcheck:
       test:
         [
@@ -304,7 +304,7 @@ services:
     networks:
       - supabase-internal
     volumes:
-      - /data/docker/supabase/storage:/var/lib/storage:z
+      - /data/docker/supabase/volumes/storage:/var/lib/storage:z
     healthcheck:
       test:
         [
@@ -348,7 +348,7 @@ services:
     image: supabase/edge-runtime:v1.70.0
     restart: unless-stopped
     volumes:
-      - /data/docker/supabase/functions:/home/deno/functions:Z
+      - /data/docker/supabase/volumes/functions:/home/deno/functions:Z
     depends_on:
       analytics:
         condition: service_healthy
@@ -373,8 +373,8 @@ services:
     container_name: supabase-analytics
     image: supabase/logflare:1.30.3
     restart: unless-stopped
-    ports:
-      - 4000:4000
+#    ports:
+#      - 4000:4000
     # Uncomment to use Big Query backend for analytics
     # volumes:
     #   - type: bind
@@ -386,7 +386,7 @@ services:
         [
           "CMD",
           "curl",
-          "http://localhost:4000/health"
+          "http://analytics:4000/health"
         ]
       timeout: 5s
       interval: 5s
@@ -410,13 +410,9 @@ services:
       LOGFLARE_SINGLE_TENANT: true
       LOGFLARE_SUPABASE_MODE: true
 
-      # Comment variables to use Big Query backend for analytics
       POSTGRES_BACKEND_URL: postgresql://supabase_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/_supabase
       POSTGRES_BACKEND_SCHEMA: _analytics
       LOGFLARE_FEATURE_FLAG_OVERRIDE: multibackend=true
-      # Uncomment to use Big Query backend for analytics
-      # GOOGLE_PROJECT_ID: ${GOOGLE_PROJECT_ID}
-      # GOOGLE_PROJECT_NUMBER: ${GOOGLE_PROJECT_NUMBER}
 
   # Comment out everything below this point if you are using an external Postgres database
   db:
@@ -424,21 +420,21 @@ services:
     image: supabase/postgres:15.8.1.085
     restart: unless-stopped
     volumes:
-      - /data/docker/supabase/db/realtime.sql:/docker-entrypoint-initdb.d/migrations/99-realtime.sql:Z
+      - /data/docker/supabase/volumes/db/realtime.sql:/docker-entrypoint-initdb.d/migrations/99-realtime.sql:Z
       # Must be superuser to create event trigger
-      - /data/docker/supabase/db/webhooks.sql:/docker-entrypoint-initdb.d/init-scripts/98-webhooks.sql:Z
+      - /data/docker/supabase/volumes/db/webhooks.sql:/docker-entrypoint-initdb.d/init-scripts/98-webhooks.sql:Z
       # Must be superuser to alter reserved role
-      - /data/docker/supabase/db/roles.sql:/docker-entrypoint-initdb.d/init-scripts/99-roles.sql:Z
+      - /data/docker/supabase/volumes/db/roles.sql:/docker-entrypoint-initdb.d/init-scripts/99-roles.sql:Z
       # Initialize the database settings with JWT_SECRET and JWT_EXP
-      - /data/docker/supabase/db/jwt.sql:/docker-entrypoint-initdb.d/init-scripts/99-jwt.sql:Z
+      - /data/docker/supabase/volumes/db/jwt.sql:/docker-entrypoint-initdb.d/init-scripts/99-jwt.sql:Z
       # PGDATA directory is persisted between restarts
-      - /data/docker/supabase/db/data:/var/lib/postgresql/data:Z
+      - /data/docker/supabase/volumes/db/data:/var/lib/postgresql/data:Z
       # Changes required for internal supabase data such as _analytics
-      - /data/docker/supabase/db/_supabase.sql:/docker-entrypoint-initdb.d/migrations/97-_supabase.sql:Z
+      - /data/docker/supabase/volumes/db/_supabase.sql:/docker-entrypoint-initdb.d/migrations/97-_supabase.sql:Z
       # Changes required for Analytics support
-      - /data/docker/supabase/db/logs.sql:/docker-entrypoint-initdb.d/migrations/99-logs.sql:Z
+      - /data/docker/supabase/volumes/db/logs.sql:/docker-entrypoint-initdb.d/migrations/99-logs.sql:Z
       # Changes required for Pooler support
-      - /data/docker/supabase/db/pooler.sql:/docker-entrypoint-initdb.d/migrations/99-pooler.sql:Z
+      - /data/docker/supabase/volumes/db/pooler.sql:/docker-entrypoint-initdb.d/migrations/99-pooler.sql:Z
       # Use named volume to persist pgsodium decryption key between restarts
       - db-config:/etc/postgresql-custom
     healthcheck:
@@ -480,18 +476,17 @@ services:
 
   vector:
     container_name: supabase-vector
-    image: timberio/vector:0.28.1-alpine
+    image: ghcr.io/webysther/supabase-vector
     restart: unless-stopped
     volumes:
-      - /data/docker/supabase/logs/vector.yml:/etc/vector/vector.yml:ro,z
-      - ${DOCKER_SOCKET_LOCATION}:/var/run/docker.sock:ro,z
+      - /var/run/docker.sock:/var/run/docker.sock
     healthcheck:
       test:
         [
           "CMD",
           "wget",
           "--no-verbose",
-          "--tries=1",
+          "--tries=3",
           "--spider",
           "http://vector:9001/health"
         ]
@@ -519,7 +514,7 @@ services:
       - ${POSTGRES_PORT}:5432
       - ${POOLER_PROXY_PORT_TRANSACTION}:6543
     volumes:
-      - /data/docker/supabase/pooler/pooler.exs:/etc/pooler/pooler.exs:ro,z
+      - /data/docker/supabase/volumes/pooler/pooler.exs:/etc/pooler/pooler.exs:ro,z
     healthcheck:
       test:
         [
