@@ -61,8 +61,6 @@ postgres_password=$(gen_hex 16)
 dashboard_password=$(gen_hex 16)
 
 echo ""
-echo "# Issued at $iat and expire in $exp"
-echo ""
 echo "ANON_KEY=${anon_key}"
 echo "SERVICE_ROLE_KEY=${service_role_key}"
 echo ""

@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+export HOSTNAME="${HOSTNAME:-::}"
+
+export STUDIO_PG_META_URL="${STUDIO_PG_META_URL:-http://meta:8080}"
+export LOGFLARE_URL="${LOGFLARE_URL:-http://analytics:4000}"
+export SUPABASE_URL="${SUPABASE_URL:-http://studio:3000}"
+
+export NEXT_PUBLIC_ENABLE_LOGS="${NEXT_PUBLIC_ENABLE_LOGS:-false}"
+export NEXT_ANALYTICS_BACKEND_PROVIDER="${NEXT_ANALYTICS_BACKEND_PROVIDER:-postgres}"
+
+export SNIPPETS_MANAGEMENT_FOLDER="${SNIPPETS_MANAGEMENT_FOLDER:-/app/snippets}"
+export EDGE_FUNCTIONS_MANAGEMENT_FOLDER="${EDGE_FUNCTIONS_MANAGEMENT_FOLDER:-/app/edge-functions}"
+
+export OPENAI_API_KEY="${OPENAI_API_KEY:-}"
+export NEXT_PUBLIC_ENABLE_LOGS="${NEXT_PUBLIC_ENABLE_LOGS:-true}"
+
+if [ -n "${JWT_SECRET:-}" ]; then
+  export AUTH_JWT_SECRET="${JWT_SECRET}"
+fi
+
+if [ -n "${STUDIO_DEFAULT_ORGANIZATION:-}" ]; then
+  export DEFAULT_ORGANIZATION_NAME="${STUDIO_DEFAULT_ORGANIZATION}"
+fi
+
+if [ -n "${STUDIO_DEFAULT_PROJECT:-}" ]; then
+  export DEFAULT_PROJECT_NAME="${STUDIO_DEFAULT_PROJECT}"
+fi
+
+if [ -n "${ANON_KEY:-}" ]; then
+  export SUPABASE_ANON_KEY="${ANON_KEY}"
+fi
+
+if [ -n "${SERVICE_ROLE_KEY:-}" ]; then
+  export SUPABASE_SERVICE_KEY="${SERVICE_ROLE_KEY}"
+fi
+
+if [ -n "${LOGFLARE_PUBLIC_ACCESS_TOKEN:-}" ]; then
+  export LOGFLARE_API_KEY="${LOGFLARE_PUBLIC_ACCESS_TOKEN}"
+fi
+
+exec "${@}"
