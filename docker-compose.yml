@@ -18,7 +18,7 @@ services:
 
   kong:
     <<: *common
-    image: ghcr.io/webysther/supabase-kong:2:8
+    image: ghcr.io/webysther/supabase-kong:2.8.1
     container_name: supabase-kong
     networks:
       - supabase
@@ -31,7 +31,7 @@ services:
 
   auth:
     <<: *common
-    image: supabase/gotrue:v2.185.0
+    image: ghcr.io/webysther/supabase-auth:2.185.0
     container_name: supabase-auth
     depends_on:
       db:
@@ -110,7 +110,7 @@ services:
 
   db:
     <<: *common
-    image: ghcr.io/webysther/supabase-postgres:15
+    image: ghcr.io/webysther/supabase-postgres:15.8.1
     container_name: supabase-db
     volumes:
       - db:/var/lib/postgresql/data
