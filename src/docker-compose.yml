@@ -9,15 +9,6 @@ services:
     depends_on:
       analytics:
         condition: service_healthy
-    environment:
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      PG_META_CRYPTO_KEY: ${PG_META_CRYPTO_KEY}
-      SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
-      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${LOGFLARE_PUBLIC_ACCESS_TOKEN}
-      LOGFLARE_PRIVATE_ACCESS_TOKEN: ${LOGFLARE_PRIVATE_ACCESS_TOKEN}
     volumes:
       - /data/docker/supabase/snippets:/app/snippets
       - /data/docker/supabase/functions:/app/edge-functions
@@ -60,9 +51,8 @@ services:
         condition: service_healthy
 
   realtime:
-    # This container name looks inconsistent but is correct because realtime constructs tenant id by parsing the subdomain
+    image: ghcr.io/webysther/supabase-realtime:2.72.0
     container_name: realtime-dev.supabase-realtime
-    image: supabase/realtime:v2.72.0
     restart: unless-stopped
     depends_on:
       db:
@@ -71,38 +61,10 @@ services:
         condition: service_healthy
     networks:
       - supabase-internal
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl -sSfL --head -o /dev/null -H \"Authorization: Bearer ${ANON_KEY}\" http://localhost:4000/api/tenants/realtime-dev/health"
-        ]
-      timeout: 5s
-      interval: 30s
-      retries: 3
-      start_period: 10s
-    environment:
-      PORT: 4000
-      DB_HOST: ${POSTGRES_HOST}
-      DB_PORT: ${POSTGRES_PORT}
-      DB_USER: supabase_admin
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      DB_NAME: ${POSTGRES_DB}
-      DB_AFTER_CONNECT_QUERY: 'SET search_path TO _realtime'
-      DB_ENC_KEY: supabaserealtime
-      API_JWT_SECRET: ${JWT_SECRET}
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-      ERL_AFLAGS: -proto_dist inet_tcp
-      DNS_NODES: "''"
-      RLIMIT_NOFILE: "10000"
-      APP_NAME: realtime
-      SEED_SELF_HOST: "true"
-      RUN_JANITOR: "true"
-      DISABLE_HEALTHCHECK_LOGGING: "true"
 
   storage:
-    container_name: supabase-storage
     image: supabase/storage-api:v1.37.1
+    container_name: supabase-storage
     restart: unless-stopped
     volumes:
       - /data/docker/supabase/storage:/var/lib/storage:z
@@ -201,15 +163,11 @@ services:
         condition: service_healthy
     networks:
       - supabase-internal
-    environment:
-      JWT_SECRET: ${JWT_SECRET}
 
   analytics:
-    container_name: supabase-analytics
     image: supabase/logflare:1.30.3
+    container_name: supabase-analytics
     restart: unless-stopped
-#    ports:
-#      - 4000:4000
     healthcheck:
       test:
         [
