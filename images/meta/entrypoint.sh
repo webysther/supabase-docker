@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-export PG_META_PORT="${PG_META_PORT:-8080}"
-export PG_META_DB_USER="${PG_META_DB_USER:-supabase_admin}"
 export PG_META_DB_HOST="${PG_META_DB_HOST:-$POSTGRES_HOST}"
 export PG_META_DB_PORT="${PG_META_DB_PORT:-$POSTGRES_PORT}"
 export PG_META_DB_NAME="${PG_META_DB_NAME:-$POSTGRES_DB}"

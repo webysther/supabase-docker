@@ -1,20 +1,9 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-export PORT="${PORT:-4000}"
 export DATABASE_URL="${DATABASE_URL:-ecto://supabase_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/_supabase}"
-export CLUSTER_POSTGRES="${CLUSTER_POSTGRES:-true}"
-export REGION="${REGION:-local}"
-export ERL_AFLAGS="${ERL_AFLAGS:--proto_dist inet_tcp}"
 export API_JWT_SECRET="${API_JWT_SECRET:-$JWT_SECRET}"
 export METRICS_JWT_SECRET="${METRICS_JWT_SECRET:-$JWT_SECRET}"
-
-export POOLER_POOL_MODE="${POOLER_POOL_MODE:-transaction}"
-export POOLER_POOL_MODE="${POOLER_POOL_MODE:-transaction}"
-export POOLER_DEFAULT_POOL_SIZE="${POOLER_DEFAULT_POOL_SIZE:-20}"
-export POOLER_MAX_CLIENT_CONN="${POOLER_MAX_CLIENT_CONN:-100}"
-export POOLER_DB_POOL_SIZE="${POOLER_DB_POOL_SIZE:-5}"
-
 export DB_POOL_SIZE="${DB_POOL_SIZE:-$POOLER_DB_POOL_SIZE}"
 
 exec "${@}"

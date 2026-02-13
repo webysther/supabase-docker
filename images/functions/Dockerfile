@@ -2,6 +2,9 @@ FROM supabase/edge-runtime:v1.70.0
 
 ENV VERSION=1.70.0
 
+ENV SUPABASE_URL="http://kong:8000"
+ENV FUNCTIONS_VERIFY_JWT=false
+
 COPY ./scripts/main /home/deno/functions-main
 COPY ./scripts/hello /home/deno/functions-hello
 

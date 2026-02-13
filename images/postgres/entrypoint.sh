@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -Eeo pipefail
 
+# this is a override forced, keep it.
 export POSTGRES_HOST="/var/run/postgresql"
+
 export PGPORT="${PGPORT:-$POSTGRES_PORT}"
 export PGPASSWORD="${PGPASSWORD:-$POSTGRES_PASSWORD}"
 export PGDATABASE="${PGDATABASE:-$POSTGRES_DB}"

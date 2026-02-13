@@ -2,6 +2,16 @@ FROM supabase/supavisor:2.7.4
 
 ENV VERSION=2.7.4
 
+ENV PORT=4000
+ENV CLUSTER_POSTGRES=true
+ENV REGION=local
+ENV ERL_AFLAGS="-proto_dist inet_tcp"
+
+ENV POOLER_POOL_MODE=transaction
+ENV POOLER_DEFAULT_POOL_SIZE=20
+ENV POOLER_MAX_CLIENT_CONN=100
+ENV POOLER_DB_POOL_SIZE=5
+
 HEALTHCHECK --interval=10s --timeout=10s --retries=10 \
   CMD curl -sSfL --head -o /dev/null http://127.0.0.1:4000/api/health || exit 1
 

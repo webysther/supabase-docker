@@ -57,6 +57,8 @@ logflare_private_access_token=$(gen_base64 24)
 postgres_password=$(gen_hex 16)
 dashboard_password=$(gen_hex 16)
 
+db_enc_key=$(gen_hex 16)
+
 pooler_id=$(gen_hex 8)
 
 echo ""
@@ -70,6 +72,7 @@ echo "PG_META_CRYPTO_KEY=${pg_meta_crypto_key}"
 echo "LOGFLARE_PUBLIC_ACCESS_TOKEN=${logflare_public_access_token}"
 echo "LOGFLARE_PRIVATE_ACCESS_TOKEN=${logflare_private_access_token}"
 echo "POOLER_TENANT_ID=${pooler_id}"
+echo "DB_ENC_KEY=${db_enc_key}"
 echo ""
 echo "POSTGRES_PASSWORD=${postgres_password}"
 echo "DASHBOARD_PASSWORD=${dashboard_password}"

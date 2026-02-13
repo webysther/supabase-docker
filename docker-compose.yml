@@ -104,6 +104,8 @@ services:
     <<: *common
     image: ghcr.io/webysther/supabase-analytics:1.30.3
     container_name: supabase-analytics
+    #ports:
+    #  - 4000:4000
     depends_on:
       db:
         condition: service_healthy

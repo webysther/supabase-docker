@@ -1,10 +1,12 @@
-FROM darthsim/imgproxy:v3.30.1
+FROM ghcr.io/imgproxy/imgproxy:v3.30.1
 
 ENV VERSION=3.30.1
 
-COPY --chmod=0755 entrypoint.sh /usr/local/bin/custom-entrypoint.sh
-
-ENTRYPOINT ["custom-entrypoint.sh"]
+ENV IMGPROXY_BIND=:5001
+ENV IMGPROXY_LOCAL_FILESYSTEM_ROOT=/
+ENV IMGPROXY_USE_ETAG=true
+ENV IMGPROXY_MAX_SRC_RESOLUTION=16.8
+ENV IMGPROXY_ENABLE_WEBP_DETECTION=true
 
 HEALTHCHECK --timeout=10s --interval=10s --retries=10 \
   CMD imgproxy health
