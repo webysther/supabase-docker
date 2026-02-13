@@ -1,5 +1,7 @@
 FROM supabase/supavisor:2.7.4
 
+ENV VERSION=2.7.4
+
 HEALTHCHECK --interval=10s --timeout=5s --retries=5 \
   CMD curl -sSfL --head -o /dev/null http://127.0.0.1:4000/api/health || exit 1
 

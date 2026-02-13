@@ -1,5 +1,7 @@
 FROM supabase/gotrue:v2.185.0
 
+ENV VERSION=2.185.0
+
 COPY --chmod=755 entrypoint.sh /usr/local/bin/custom-entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/custom-entrypoint.sh"]

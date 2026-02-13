@@ -1,5 +1,7 @@
 FROM supabase/postgres:15.8.1.085
 
+ENV VERSION=15.8.1
+
 ENV POSTGRES_HOST=/var/run/postgresql
 
 COPY entrypoint.sh /usr/local/bin/custom-entrypoint.sh

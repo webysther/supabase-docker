@@ -1,5 +1,7 @@
 FROM supabase/realtime:v2.72.0
 
+ENV VERSION=2.72.0
+
 COPY entrypoint.sh /usr/local/bin/custom-entrypoint.sh
 RUN chmod +x /usr/local/bin/custom-entrypoint.sh
 

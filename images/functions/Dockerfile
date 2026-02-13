@@ -1,5 +1,7 @@
 FROM supabase/edge-runtime:v1.70.0
 
+ENV VERSION=1.70.0
+
 COPY ./scripts/main /home/deno/functions-main
 COPY ./scripts/hello /home/deno/functions-hello
 

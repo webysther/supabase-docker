@@ -1,5 +1,7 @@
 FROM supabase/storage-api:v1.37.1
 
+ENV VERSION=1.37.1
+
 COPY --chmod=0755 entrypoint.sh /usr/local/bin/custom-entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/custom-entrypoint.sh"]
