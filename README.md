@@ -1,6 +1,6 @@
 # Supabase Docker
 
-This repository makes it easy to run [Supabase with Docker](https://supabase.com/docs/guides/self-hosting/docker) by removing external dependencies and simplifying the configuration process, 
+This repository makes it easy to run [Supabase with Docker](https://github.com/supabase/supabase/tree/master/docker#self-hosted-supabase-with-docker) by removing external dependencies and simplifying the configuration process, 
 without requiring shell access or additional setup steps. The project follows the same spirit of streamlined deployment popularized by [LinuxServer](https://www.linuxserver.io/our-images).
 
 ## Contribution
