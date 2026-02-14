@@ -31,7 +31,11 @@ without requiring shell access or additional setup steps. The project follows th
 
 ## System Requirements
 
-Simply starting all images requires nearly 4 GB of RAM.  
+> [!CAUTION]
+> Simply starting all images requires nearly 4 GB of RAM.  
+
+![supabase resources](assets/image.png)
+
 If you don’t need the full feature set, consider using [PocketBase](https://pocketbase.io/).
 
 ## Setup
