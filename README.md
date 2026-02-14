@@ -7,7 +7,7 @@ without requiring shell access or additional setup steps. The project follows th
 
 - Give a star
 - Consider a donation
-- [Ask to Supebase](https://github.com/orgs/supabase/discussions/39820) to provide a setup like this
+- [Ask to Supabase](https://github.com/orgs/supabase/discussions/39820) to provide a setup like this
 - Open an issue or Send a PR
 
 ## Major Problems Fixed
