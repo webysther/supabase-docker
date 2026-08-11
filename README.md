@@ -38,7 +38,7 @@ without requiring shell access or additional setup steps. The project follows th
 
 If you don’t need the full feature set, consider using:
 
-- [PocketBase](https://pocketbase.io/) ([pocketback-docker](https://github.com/muchobien/pocketbase-docker)).
+- [PocketBase](https://pocketbase.io/) ([pocketback-docker](https://github.com/muchobien/pocketbase-docker))
 - [tinbase](https://github.com/tinbase/tinbase)
 - [fluxbase](https://github.com/nimbleflux/fluxbase)
 
