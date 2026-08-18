@@ -127,6 +127,10 @@ If a specific service fail, run only this service (eg. vector):
 - Merge some images in just one
 - Maybe build an AIO image
 
+### Allow multiple parallel instances
+
+Kudos to @MBybee: [PR #2](https://github.com/webysther/supabase-docker/pull/2)
+
 ## Similar projects
 
 - [supabase-automated-self-host](https://github.com/singh-inder/supabase-automated-self-host): Self-host Supabase with Nginx/Caddy and Authelia with just ONE bash script.
