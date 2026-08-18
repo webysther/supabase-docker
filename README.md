@@ -42,6 +42,14 @@ If you don’t need the full feature set, consider using:
 - [tinbase](https://github.com/tinbase/tinbase)
 - [fluxbase](https://github.com/nimbleflux/fluxbase)
 
+### Update Q3 2026
+
+Now supabase added support for small deploy using sqlite compatible layer.
+
+<img width="1983" height="793" alt="image" src="https://github.com/user-attachments/assets/257ebb5d-d6d6-417d-938a-2beaecbce9f5" />
+
+[supabase lite](https://www.npmjs.com/package/@supabase/lite)
+
 ## Setup
 
 ### Compose
@@ -118,3 +126,15 @@ If a specific service fail, run only this service (eg. vector):
 
 - Merge some images in just one
 - Maybe build an AIO image
+
+## Similar projects
+
+- [supabase-automated-self-host](https://github.com/singh-inder/supabase-automated-self-host): Self-host Supabase with Nginx/Caddy and Authelia with just ONE bash script.
+- [supabase-docker-compose](https://github.com/minhng92/supabase-docker-compose): Pre-configuration Supabase docker-compose with zero setup (for development environment only)
+- [supabase-docker](https://github.com/alex-guoba/supabase-docker): A simple Docker setup for Supabase.
+
+## Alternatives
+
+- [appwrite](https://github.com/appwrite/appwrite)
+- [pocketbase](https://github.com/pocketbase/pocketbase)
+- [bknd](https://github.com/bknd-io/bknd)
